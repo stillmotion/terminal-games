@@ -47,12 +47,16 @@ static void freeblocks(struct snakeblock *listp);
 
 static struct snakeblock *direction(struct snake *sn)
 {
-	int i;
+	int i, x, y;
 
-	for (i = 0; i < 4; i++)
-		if (snake_direction[i].x+sn->snake->next->x == sn->snake->x
-		 && snake_direction[i].y+sn->snake->next->y == sn->snake->y)
+	for (i = 0; i < 4; i++) {
+		x = snake_direction[i].x + sn->snake->next->x;
+		y = snake_direction[i].y + sn->snake->next->y;
+		x = (x < 0) ? sn->width - 1 : x % sn->width;
+		y = (y < 0) ? sn->height - 1 : y % sn->height;
+		if (sn->snake->x == x && sn->snake->y == y)
 			return &snake_direction[i];
+	}
 	return &snake_direction[0];
 }
 
