@@ -245,7 +245,7 @@ int main(int argc, char *argv[])
 	tb_select_input_mode(TB_INPUT_ALT);
 	atexit(tb_shutdown);
 	hiscore = 0;
-	while ((r = play(level, hiscore)) > 0)
+	while ((r = play(level, hiscore)) >= 0)
 		if (r > hiscore)
 			hiscore = r;
 	return 0;
