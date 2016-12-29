@@ -102,7 +102,7 @@ struct map {
 int nmaps;
 struct map maps[];
 
-int play(char *level, int width, int height);
+int play(char *map, int w, int h, int level);
 
 int main(int argc, char *argv[])
 {
@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 	for (p = maps + l - 1; p < maps+nmaps; p++)
-		switch (play(p->s, p->width, p->height)) {
+		switch (play(p->s, p->width, p->height, p - maps + 1)) {
 		case 0:
 			tb_shutdown();
 			return 0;
@@ -132,45 +132,46 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-void draw(char *grid, int w, int h);
+void draw(char *grid, int w, int h, int level);
 
-int play(char *level, int width, int height)
+int play(char *map, int w, int h, int level)
 {
 	struct tb_event ev;
 	char *grid;
 	int s;
 
-	grid = malloc(width * height);
+	grid = malloc(w * h);
 	if (grid == NULL)
 		return -1;
-	memcpy(grid, level, width * height);
-	s = sokoban(grid, width, height, 0);
-	while (s == 0 && (draw(grid, width, height), tb_poll_event(&ev) > 0)) {
+	memcpy(grid, map, w * h);
+	s = sokoban(grid, w, h, 0);
+	while (s == 0 && (draw(grid, w, h, level), tb_poll_event(&ev) > 0)) {
 		if (ev.key == TB_KEY_CTRL_C)
 			break;
 		if (ev.ch == 'r')
-			memcpy(grid, level, width * height);
+			memcpy(grid, map, w * h);
 		if (ev.key == TB_KEY_ARROW_LEFT)
-			s = sokoban(grid, width, height, SOKO_LEFT);
+			s = sokoban(grid, w, h, SOKO_LEFT);
 		if (ev.key == TB_KEY_ARROW_UP)
-			s = sokoban(grid, width, height, SOKO_UP);
+			s = sokoban(grid, w, h, SOKO_UP);
 		if (ev.key == TB_KEY_ARROW_DOWN)
-			s = sokoban(grid, width, height, SOKO_DOWN);
+			s = sokoban(grid, w, h, SOKO_DOWN);
 		if (ev.key == TB_KEY_ARROW_RIGHT)
-			s = sokoban(grid, width, height, SOKO_RIGHT);
+			s = sokoban(grid, w, h, SOKO_RIGHT);
 	}
 	free(grid);
 	return s;
 }
 
-void draw(char *grid, int w, int h)
+void draw(char *grid, int w, int h, int level)
 {
+	char s[8192];
 	int i, x, y;
 
 	tb_clear();
 	for (i = 0; i < w*h; i++) {
 		x = tb_width()/2 - w + i%w*2;
-		y = tb_height()/2 - h/2 + i/w;
+		y = tb_height()/2 - (h + 2)/2 + i/w;
 		if (grid[i] == 'p' || grid[i] == 'P') {
 			tb_change_cell(x+0, y, ' ', 0, TB_YELLOW);
 			tb_change_cell(x+1, y, ' ', 0, TB_YELLOW);
@@ -192,6 +193,11 @@ void draw(char *grid, int w, int h)
 			tb_change_cell(x+1, y, ']', TB_GREEN, 0);
 		}
 	}
+	sprintf(s, "Level: %3d", level);
+	x = tb_width()/2 - strlen(s)/2;
+	y = tb_height()/2 - (h + 2)/2 + h + 1;
+	for (i = 0; s[i]; i++)
+		tb_change_cell(x+i, y, s[i], 0, 0);
 	tb_present();
 }
 
