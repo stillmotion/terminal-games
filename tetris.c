@@ -323,7 +323,7 @@ int input(struct tetris *t, int *d, int *p)
 
 enum {
 	VW = 2 + TETRIS_GW*2 + 2  + 4 +  24,
-	VH = 2 + TETRIS_GH + 2
+	VH = 1 + TETRIS_GH + 1
 };
 
 static void set(int x, int y, int c, int fg, int bg)
