@@ -173,16 +173,16 @@ void draw(char *grid, int w, int h, int level)
 		x = tb_width()/2 - w + i%w*2;
 		y = tb_height()/2 - (h + 2)/2 + i/w;
 		if (grid[i] == 'p' || grid[i] == 'P') {
-			tb_change_cell(x+0, y, ' ', 0, TB_YELLOW);
-			tb_change_cell(x+1, y, ' ', 0, TB_YELLOW);
+			tb_change_cell(x+0, y, ' ', 0, TB_RED);
+			tb_change_cell(x+1, y, ' ', 0, TB_RED);
 		}
 		if (grid[i] == '#') {
 			tb_change_cell(x+0, y, ' ', 0, TB_BLUE);
 			tb_change_cell(x+1, y, ' ', 0, TB_BLUE);
 		}
 		if (grid[i] == 'c') {
-			tb_change_cell(x+0, y, ' ', 0, TB_RED);
-			tb_change_cell(x+1, y, ' ', 0, TB_RED);
+			tb_change_cell(x+0, y, ' ', 0, TB_YELLOW);
+			tb_change_cell(x+1, y, ' ', 0, TB_YELLOW);
 		}
 		if (grid[i] == 'C') {
 			tb_change_cell(x+0, y, ' ', 0, TB_GREEN);

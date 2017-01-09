@@ -392,6 +392,6 @@ void draw(struct snake *sn, int max_score)
 		set(x, vh - 1, score[x], 0, 0);
 	drawlist(sn->wall, ' ', 0, TB_WHITE);
 	drawlist(sn->snake, ' ', 0, TB_GREEN);
-	drawlist(sn->food, ' ', 0, TB_RED);
+	drawlist(sn->food, ' ', 0, TB_YELLOW);
 	tb_present();
 }
