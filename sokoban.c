@@ -146,6 +146,8 @@ int play(char *map, int w, int h, int level)
 	memcpy(grid, map, w * h);
 	s = sokoban(grid, w, h, 0);
 	while (s == 0 && (draw(grid, w, h, level), tb_poll_event(&ev) > 0)) {
+		if (ev.type != TB_EVENT_KEY)
+			continue;
 		if (ev.key == TB_KEY_CTRL_C)
 			break;
 		if (ev.ch == 'r')
