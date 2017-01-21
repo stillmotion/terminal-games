@@ -395,7 +395,7 @@ int input(int *move, int *shoot, int *pause)
 			*move = -1;
 		if (ev.key == TB_KEY_ARROW_RIGHT)
 			*move = +1;
-		if (ev.key == 'p')
+		if (ev.ch == 'p')
 			*pause = !*pause;
 	}
 	return 0;
