@@ -39,7 +39,6 @@ static int solved(char *sudoku, int x, int y, void fn(int *x, int *y, int i))
 
 int sudoku_solved(char *sudoku)
 {
-	char tmp[10];
 	int i;
 
 	for (i = 0; i < 9; i++)
