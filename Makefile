@@ -1,4 +1,4 @@
-GAMES := invaders snake sokoban sudoku tetris
+GAMES := invaders minesweeper snake sokoban sudoku tetris
 LDLIBS := -s -ltermbox
 
 all: $(GAMES)
