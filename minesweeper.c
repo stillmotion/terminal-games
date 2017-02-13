@@ -46,7 +46,10 @@ int ms_get(struct minesweeper *ms, int x, int y)
 
 void ms_flag(struct minesweeper *ms, int x, int y)
 {
-	if (get(ms, x, y) >= 0)
+	int c;
+
+	c = get(ms, x, y) & ~FLAG;
+	if (c == ' ' || c == '*')
 		ms->grid[y*ms->width + x] ^= FLAG;
 }
 
